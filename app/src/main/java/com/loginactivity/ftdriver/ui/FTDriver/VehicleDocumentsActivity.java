@@ -125,7 +125,7 @@ public class VehicleDocumentsActivity extends AppCompatActivity {
         Log.i(TAG, "GetDocuments - Parameters : " + Parameters);
 
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(this);
             Call<List<SearchVehicleDocumentsResponseModel>> call =
                     apiService.postVehicleDocumentData(String.valueOf(vehicleId), "");
 
@@ -677,7 +677,7 @@ public class VehicleDocumentsActivity extends AppCompatActivity {
 
     private void fetchAWSAccessKey() {
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(this);
             apiServiceCacheMemoryWrapper = new ApiServiceCacheMemoryWrapper(this, apiService);
 
             apiServiceCacheMemoryWrapper.getAmazonAccessKey(new Callback<String>() {
@@ -718,7 +718,7 @@ public class VehicleDocumentsActivity extends AppCompatActivity {
 
     private void fetchAWSSecretKey() {
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(this);
             apiServiceCacheMemoryWrapper = new ApiServiceCacheMemoryWrapper(this, apiService);
 
             apiServiceCacheMemoryWrapper.getAmazonSecretKey(new Callback<String>() {

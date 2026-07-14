@@ -185,7 +185,7 @@ public class FTDriverFragment extends Fragment {
         if (isLoadingVehicleNumbers) return;
 
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(requireContext());
             apiServiceCacheMemoryWrapper = new ApiServiceCacheMemoryWrapper(requireContext(), apiService);
 
             ProgressDialog progressDialog = new ProgressDialog(requireContext());
@@ -402,7 +402,7 @@ public class FTDriverFragment extends Fragment {
             return;
         }
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(requireContext());
             apiServiceCacheMemoryWrapper = new ApiServiceCacheMemoryWrapper(requireContext(), apiService);
 
 //            DriverNameTextInputEditText.setOnClickListener(v -> {
@@ -479,7 +479,7 @@ public class FTDriverFragment extends Fragment {
         Log.i(TAG, "VehicleStatus - Driver ID: " + driverID);
 
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(requireContext());
             Call<ResponseBody> call = apiService.searchVehicleStatusDetails(LoginUserID);
 
             call.enqueue(new Callback<ResponseBody>() {
@@ -610,7 +610,7 @@ public class FTDriverFragment extends Fragment {
     private void fetchVehicleDocuments(int vehicleId) {
         ApiService apiService;
         try {
-            apiService = RetrofitAPIServiceInstance.getApiService();
+            apiService = RetrofitAPIServiceInstance.getApiService(requireContext());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -690,7 +690,7 @@ public class FTDriverFragment extends Fragment {
     public void fetchEwayBillExpireDate(String VehicleNo) {
         ApiService apiService;
         try {
-            apiService = RetrofitAPIServiceInstance.getApiService();
+            apiService = RetrofitAPIServiceInstance.getApiService(requireContext());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -799,7 +799,7 @@ public class FTDriverFragment extends Fragment {
         Log.v("FetchUnload", "PartyName: " + PartyName);
         Log.v("FetchUnload", "ShipmentType: " + ShipmentType);
 
-        ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+        ApiService apiService = RetrofitAPIServiceInstance.getApiService(requireContext());
         Call<List<UnloadDetails>> call = apiService.getUnloadForShipment(PartyName, ShipmentType);
 
         call.enqueue(new Callback<List<UnloadDetails>>() {

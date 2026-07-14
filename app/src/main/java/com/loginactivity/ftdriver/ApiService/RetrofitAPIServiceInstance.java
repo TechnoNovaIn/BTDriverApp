@@ -1,5 +1,7 @@
 package com.loginactivity.ftdriver.ApiService;
 
+import android.content.Context;
+
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
@@ -17,8 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitAPIServiceInstance {
     private static Retrofit retrofit;
     private static final String BASE_URL = "https://external.balajitransports.in/api/";
-
-    public static ApiService getApiService() throws Exception {
+//public static final String BASE_URL = "http://192.168.1.13:2030/api/";
+    public static ApiService getApiService(Context context) throws Exception {
         if (retrofit == null) {
 //            retrofit = createRetrofit();
             Dispatcher dispatcher = new Dispatcher();
@@ -34,6 +36,7 @@ public class RetrofitAPIServiceInstance {
                     .readTimeout(10, TimeUnit.MINUTES)
                     .writeTimeout(10, TimeUnit.MINUTES)
                     .dispatcher(dispatcher)
+                    .addInterceptor(new AuthInterceptor(context))
                     .build();
 
             retrofit = new Retrofit.Builder()

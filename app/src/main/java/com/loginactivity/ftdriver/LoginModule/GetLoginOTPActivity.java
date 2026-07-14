@@ -57,9 +57,10 @@ public class GetLoginOTPActivity extends AppCompatActivity {
         });
 
         sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+        String token = sharedPreferences.getString("Token", "");
+
+        if (!token.isEmpty()) {
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         }
 
@@ -77,7 +78,7 @@ public class GetLoginOTPActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(this);
             Call<ResponseBody> call = apiService.postUserInfoData(enteredUsername);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -98,7 +99,12 @@ public class GetLoginOTPActivity extends AppCompatActivity {
                                 String otp = jsonObject.getString("OTP");
                                 String Username = jsonObject.getString("Name");
                                 String userId = jsonObject.getString("UserId");
-
+                                Log.d(TAG, "==========================");
+                                Log.d(TAG, "User ID : " + userId);
+                                Log.d(TAG, "User Name : " + Username);
+                                Log.d(TAG, "Phone No : " + phone);
+                                Log.d(TAG, "OTP Received : " + otp);
+                                Log.d(TAG, "==========================");
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("UserId", userId);
                                 editor.putString("Name", Username);

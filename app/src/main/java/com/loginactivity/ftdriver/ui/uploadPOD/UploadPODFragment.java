@@ -274,7 +274,7 @@ public class UploadPODFragment extends Fragment {
     private void callInsertVehicleTripDetailsAPI() {
 
         ApiService api;
-        try { api = RetrofitAPIServiceInstance.getApiService(); }
+        try { api = RetrofitAPIServiceInstance.getApiService(requireContext()); }
         catch (Exception e) { throw new RuntimeException(e); }
 
         Gson gson = new Gson();
@@ -357,7 +357,7 @@ public class UploadPODFragment extends Fragment {
         if (isLoadingVehicleNumbers) return;
 
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(requireContext());
             apiServiceCacheMemoryWrapper = new ApiServiceCacheMemoryWrapper(requireContext(), apiService);
 
             ProgressDialog progressDialog = new ProgressDialog(requireContext());
@@ -419,7 +419,7 @@ public class UploadPODFragment extends Fragment {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+        ApiService apiService = RetrofitAPIServiceInstance.getApiService(requireContext());
         Call<List<ShipmentDetailsModel>> call = apiService.getShipmentDetails(vehicleId);
 
         call.enqueue(new Callback<List<ShipmentDetailsModel>>() {
@@ -986,7 +986,7 @@ public void onActivityResult(int requestCode, int resultCode, @Nullable Intent d
     }
     private void fetchAWSAccessKey() {
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(requireContext());
             apiServiceCacheMemoryWrapper = new ApiServiceCacheMemoryWrapper(requireContext(), apiService);
 
             apiServiceCacheMemoryWrapper.getAmazonAccessKey(new Callback<String>() {
@@ -1027,7 +1027,7 @@ public void onActivityResult(int requestCode, int resultCode, @Nullable Intent d
 
     private void fetchAWSSecretKey() {
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(requireContext());
             apiServiceCacheMemoryWrapper = new ApiServiceCacheMemoryWrapper(requireContext(), apiService);
 
             apiServiceCacheMemoryWrapper.getAmazonSecretKey(new Callback<String>() {

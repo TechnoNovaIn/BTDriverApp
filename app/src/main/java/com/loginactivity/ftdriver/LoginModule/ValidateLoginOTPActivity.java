@@ -86,7 +86,7 @@ public class ValidateLoginOTPActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         try {
-            ApiService apiService = RetrofitAPIServiceInstance.getApiService();
+            ApiService apiService = RetrofitAPIServiceInstance.getApiService(this);
             ValidateOTPRequest validateOTPRequest = new ValidateOTPRequest(UserID, enteredOTP);
             Call<ResponseBody> call = apiService.postValidateData(validateOTPRequest);
             call.enqueue(new Callback<ResponseBody>() {
@@ -101,10 +101,25 @@ public class ValidateLoginOTPActivity extends AppCompatActivity {
                             Log.v(TAG, "Response: " + successMessage);
 
                             JSONObject jsonResponse = new JSONObject(successMessage);
+
+                            String token = jsonResponse.getString("token");
                             String status = jsonResponse.getString("Status");
                             String apiUserId = jsonResponse.getString("UserId");
                             String apiName = jsonResponse.getString("Name");
                             String apiPhone_No = jsonResponse.getString("PhoneNo");
+
+                            SharedPreferences pref =
+                                    getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+
+                            SharedPreferences.Editor editor = pref.edit();
+
+                            editor.putString("Token", token);
+                            editor.putString("UserId", apiUserId);
+                            editor.putString("Name", apiName);
+                            editor.putString("Phone_No", apiPhone_No);
+                            editor.putBoolean("isLoggedIn", true);
+
+                            editor.apply();
 
 
                             Log.w(TAG, "User ID Value: " + apiUserId + ", User Name Value: " + apiName +  ", Phone Number Value: " + apiPhone_No);
