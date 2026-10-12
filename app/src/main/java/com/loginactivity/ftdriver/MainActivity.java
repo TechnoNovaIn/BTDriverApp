@@ -37,12 +37,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        try {
-            throw new Exception("Test Sentry Exception - FTDriver App");
-        } catch (Exception e) {
-            Sentry.captureException(e);
-        }
-
         sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
 
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
